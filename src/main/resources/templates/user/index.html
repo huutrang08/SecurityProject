@@ -20,8 +20,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
         <div sec:authorize="isAuthenticated()">
             Welcome <b><span sec:authentication="name">Username</span></b>
             &nbsp;
-            <div>Bạn đã đăng nhập</div>
-            <i><span sec:authentication="principal.authorities">Roles</span></i>
+            Bạn đã đăng nhập với quyền
+            <p th:each="authority : ${#authentication.getAuthorities()}"
+       th:text="${authority.getAuthority()}">
+    </p>
         </div>
     </div>
 </body>
