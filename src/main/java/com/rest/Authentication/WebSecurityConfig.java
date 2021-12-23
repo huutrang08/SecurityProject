@@ -3,6 +3,7 @@ package com.rest.Authentication;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -58,12 +59,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		 http .csrf().ignoringAntMatchers("/**");
          http.authorizeHttpRequests()
-         .antMatchers("/rest/login").permitAll()
-         .antMatchers("/test/new").permitAll()
-         .anyRequest().authenticated().and()
+         .antMatchers(HttpMethod.DELETE, "/check/**").hasAnyAuthority("ADMIN")
+         .antMatchers(HttpMethod.PUT, "/check/**").hasAnyAuthority("ADMIN")
+         .antMatchers(HttpMethod.GET, "/check/**").hasAnyAuthority("USER", "CREATOR", "EDITOR", "ADMIN")
+         .antMatchers(HttpMethod.POST, "/check/**").hasAnyAuthority("USER", "CREATOR", "EDITOR", "ADMIN")
+         .antMatchers("/rest/login").permitAll().anyRequest().authenticated().and()
          .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 		 http.addFilterBefore(authenticationFilter(),UsernamePasswordAuthenticationFilter.class);
 		 http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		 http.exceptionHandling().accessDeniedPage("/403");
 		 http.cors();
 	}
     

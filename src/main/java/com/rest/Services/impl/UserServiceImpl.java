@@ -15,6 +15,11 @@ public class UserServiceImpl implements UserServices {
 	@Autowired
      UserRepository userRepository;
     
+	@Override
+	public void deleteAll() {
+		userRepository.deleteAll();
+	}
+
 	@Autowired
 	BCryptPasswordEncoder encoder;
 	
@@ -34,10 +39,24 @@ public class UserServiceImpl implements UserServices {
 	public Users findByusername(String name) {
 		return userRepository.findByUsername(name);
 	}
+    
+	@Override
+	public void delete(Users entity) {
+		userRepository.delete(entity);
+	}
+
+
 
 	@Override
 	public <S extends Users> S save(S entity) {
-		return userRepository.save(entity);
+		Users users = findByusername(entity.getUsername());
+		if (users != null) {
+		 return	userRepository.save(entity);
+		}else {
+			entity.setPassword(encoder.encode(entity.getPassword()));
+			return userRepository.save(entity);
+		}
+		
 	}
 
 	@Override

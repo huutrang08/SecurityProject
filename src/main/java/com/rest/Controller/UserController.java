@@ -4,11 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("test")
+@RequestMapping("")
 public class UserController {
-    @RequestMapping("new")
+    @RequestMapping("/403")
 	public String load() {
-    	return "user/index";
+    	return "Bạn không có quyền thục hiện";
     }
 	
 }

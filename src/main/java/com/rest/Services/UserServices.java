@@ -17,4 +17,7 @@ public interface UserServices {
 
 	Boolean login(Users user);
 
+	void deleteAll();
+	void delete(Users entity);
+
 }

@@ -53,7 +53,9 @@ public class TestController {
     		  UserDetails userDetails = (UserDetails) authentication.getCredentials();
     		  
     		  Users users = userServices.findByusername(loginRequest.getUsername());
-    		  
+    		  if(jwt == null){
+				  return "login fail";
+			  }
     		  return jwt;
     }
 }
