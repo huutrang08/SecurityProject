@@ -12,9 +12,16 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
     <div>
         <div sec:authorize="isAuthenticated()" > WelCome</div>
         <span sec:authentication="name" >Username</span>
-
+               
         <div sec:authorize="hasAnyAuthority('CREATOR', 'ADMIN')">
             <a href="/new">Create New Product</a>
+        </div>
+
+        <div sec:authorize="isAuthenticated()">
+            Welcome <b><span sec:authentication="name">Username</span></b>
+            &nbsp;
+            <div>Bạn đã đăng nhập</div>
+            <i><span sec:authentication="principal.authorities">Roles</span></i>
         </div>
     </div>
 </body>
